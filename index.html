@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#440099">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Momentum 30">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Momentum 30 — Anytime Fitness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- © 2025 Anytime Fitness Newcastle Region / Fitness Group Holdings. All rights reserved.
+     This application and its contents are proprietary and confidential.
+     Unauthorised reproduction, distribution or modification is strictly prohibited. -->
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --violet:#440099;--blurple:#6E38D5;--turquoise:#00AEC7;
+  --orange:#FF7500;--red:#EF3340;--gold:#FFD700;--green:#00C851;
+  --bg:#0D0A1A;--card:#18122E;--card2:#1F1840;--border:rgba(255,255,255,.1);
+  --text:#fff;--dim:rgba(255,255,255,.55);--faint:rgba(255,255,255,.28);
+  --font:'Montserrat',sans-serif;
+  --c1:#00C8FF;--c2:#7B2FFF;--c3:#FF5500;
+}
+html,body{background:var(--bg);font-family:var(--font);color:var(--text);min-height:100vh;overflow-x:hidden}
+body{padding-bottom:30px}
+button,input,select{font-family:var(--font);border:none;background:none;cursor:pointer;outline:none}
+a{color:var(--turquoise)}
+
+/* ═══ SETUP SCREEN ═══ */
+#setupScreen{
+  position:fixed;inset:0;z-index:500;
+  background:linear-gradient(160deg,#0D0A1A 0%,#1a0033 60%,#002233 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:30px 24px;text-align:center;
+}
+.setup-logo{font-weight:900;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.setup-m30{font-weight:900;font-size:46px;text-transform:uppercase;letter-spacing:-.02em;line-height:.95;margin-bottom:4px}
+.setup-m30 span{color:var(--turquoise)}
+.setup-tagline{font-size:13px;font-weight:600;color:var(--dim);margin-bottom:36px;letter-spacing:.02em}
+.setup-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:8px;text-align:left;width:100%;max-width:340px}
+.setup-input{
+  width:100%;max-width:340px;
+  background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);
+  border-radius:12px;padding:14px 16px;
+  color:#fff;font-size:16px;font-weight:600;margin-bottom:12px;
+  -webkit-appearance:none;
+}
+.setup-input::placeholder{color:var(--faint)}
+.setup-select{
+  width:100%;max-width:340px;
+  background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);
+  border-radius:12px;padding:14px 16px;
+  color:#fff;font-size:15px;font-weight:600;margin-bottom:24px;
+  -webkit-appearance:none;appearance:none;
+}
+.setup-select option{background:#1a0033;color:#fff}
+.setup-btn{
+  width:100%;max-width:340px;
+  background:linear-gradient(90deg,var(--blurple),var(--turquoise));
+  color:#fff;font-weight:900;font-size:14px;letter-spacing:.06em;text-transform:uppercase;
+  padding:16px;border-radius:12px;
+  box-shadow:0 4px 24px rgba(110,56,213,.5);
+}
+.setup-copy{font-size:10px;color:var(--faint);margin-top:20px;max-width:300px;line-height:1.5}
+
+/* ═══ INSTALL SHEET ═══ */
+#installWrap{
+  margin:0 16px 4px;
+  background:linear-gradient(90deg,rgba(255,117,0,.12),rgba(110,56,213,.12));
+  border:1px solid rgba(255,117,0,.3);border-radius:14px;
+  padding:12px 14px;display:flex;align-items:center;gap:10px;
+}
+.ib-text{flex:1}
+.ib-head{font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1px}
+.ib-sub{font-size:9.5px;color:var(--dim)}
+.ib-btn{background:var(--orange);color:#fff;font-weight:800;font-size:10px;letter-spacing:.05em;text-transform:uppercase;border-radius:8px;padding:8px 12px;flex-shrink:0}
+
+/* ═══ TOP HEADER ═══ */
+#topBar{
+  background:linear-gradient(135deg,var(--violet) 0%,var(--blurple) 100%);
+  padding:calc(env(safe-area-inset-top,0px)+14px) 18px 18px;
+  position:relative;overflow:hidden;
+}
+#topBar::after{
+  content:'';position:absolute;top:0;right:0;bottom:0;width:55%;
+  background:repeating-linear-gradient(115deg,transparent 0 7px,rgba(0,174,199,.1) 7px 8px);
+  pointer-events:none;
+}
+.bar-logo{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2;margin-bottom:12px}
+.bar-brand{font-weight:900;font-size:10px;letter-spacing:.15em;text-transform:uppercase;line-height:1.3}
+.bar-brand small{display:block;font-weight:600;font-size:8px;color:rgba(255,255,255,.45);letter-spacing:.1em;margin-top:1px}
+.bar-member{background:rgba(255,255,255,.12);border-radius:100px;padding:5px 12px;font-size:10px;font-weight:700;display:flex;align-items:center;gap:6px}
+.bar-member .dot{width:6px;height:6px;border-radius:50%;background:var(--turquoise)}
+.bar-title{font-weight:900;font-size:30px;line-height:.95;text-transform:uppercase;letter-spacing:-.02em;position:relative;z-index:2}
+.bar-title .accent{color:var(--turquoise)}
+.bar-sub{font-size:10px;font-weight:600;color:rgba(255,255,255,.5);margin-top:5px;position:relative;z-index:2;letter-spacing:.04em;text-transform:uppercase}
+.bar-club{
+  margin-top:10px;position:relative;z-index:2;
+  background:rgba(255,255,255,.1);border-radius:8px;padding:6px 12px;
+  font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.bar-club::before{content:'📍';font-size:11px}
+
+/* ═══ PROGRESS BAR ═══ */
+.prog-wrap{
+  margin:14px 16px 0;
+  background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;
+}
+.prog-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.prog-pct{font-weight:900;font-size:22px}
+.prog-label{font-size:10px;font-weight:700;letter-spacing:.04em;text-align:right}
+.prog-sub{font-size:9px;color:var(--dim);text-align:right;margin-top:1px}
+.prog-track{
+  width:100%;height:14px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden;
+  position:relative;margin-bottom:8px;
+}
+.prog-fill{
+  height:100%;border-radius:100px;transition:width .5s cubic-bezier(.4,0,.2,1);
+  background:linear-gradient(90deg,var(--blurple),var(--turquoise));
+  position:relative;
+}
+.prog-fill::after{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);
+  animation:shimmer 2s infinite;
+}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.prog-milestones{display:flex;justify-content:space-between}
+.prog-mile{font-size:8px;font-weight:700;color:var(--faint);text-align:center;flex:1}
+.prog-mile.reached{color:var(--turquoise)}
+
+/* ═══ VISITS SECTION ═══ */
+.visits-block{
+  margin:14px 16px 0;
+  background:linear-gradient(135deg,rgba(0,200,81,.08),rgba(0,174,199,.06));
+  border:1px solid rgba(0,200,81,.25);border-radius:16px;padding:14px;
+}
+.visits-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.visits-title{font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+.visits-count{font-weight:900;font-size:20px;color:var(--green)}
+.visits-count span{font-size:11px;font-weight:600;color:var(--dim)}
+.visits-goal{font-size:10px;color:var(--dim);margin-bottom:10px}
+.visit-dots{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.vdot{
+  aspect-ratio:1;border-radius:8px;
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:10px;font-weight:800;color:var(--faint);
+  transition:all .25s;
+}
+.vdot.done{
+  background:linear-gradient(135deg,var(--green),#00a844);
+  border-color:var(--green);color:#fff;font-size:14px;
+}
+.vdot.next{
+  border-color:var(--turquoise);color:var(--turquoise);
+  animation:pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.visits-note{font-size:9px;color:var(--faint);margin-top:8px;font-style:italic}
+
+/* ═══ PHASE CARDS ═══ */
+.phases-wrap{padding:14px 16px 0}
+.phase-block{
+  border-radius:16px;overflow:hidden;margin-bottom:12px;
+  border:1.5px solid var(--border);
+  position:relative;
+}
+.phase-block.locked{
+  opacity:.55;
+  pointer-events:none;
+}
+.phase-header{
+  padding:12px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;
+}
+.ph-1 .phase-header{background:linear-gradient(90deg,rgba(0,174,199,.2),rgba(110,56,213,.15))}
+.ph-2 .phase-header{background:linear-gradient(90deg,rgba(255,117,0,.2),rgba(110,56,213,.15))}
+.ph-3 .phase-header{background:linear-gradient(90deg,rgba(239,51,64,.2),rgba(110,56,213,.15))}
+.ph-left{display:flex;align-items:center;gap:10px}
+.phase-num{
+  width:32px;height:32px;border-radius:50%;
+  font-weight:900;font-size:14px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.ph-1 .phase-num{background:var(--turquoise);color:#fff}
+.ph-2 .phase-num{background:var(--orange);color:#fff}
+.ph-3 .phase-num{background:var(--red);color:#fff}
+.phase-meta{}
+.phase-name{font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.03em}
+.phase-days{font-size:9.5px;color:var(--dim);margin-top:1px}
+.ph-right{display:flex;align-items:center;gap:10px}
+.phase-badge{
+  font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+  padding:4px 9px;border-radius:100px;
+}
+.ph-1 .phase-badge{background:rgba(0,174,199,.2);color:var(--turquoise)}
+.ph-2 .phase-badge{background:rgba(255,117,0,.2);color:var(--orange)}
+.ph-3 .phase-badge{background:rgba(239,51,64,.2);color:var(--red)}
+.phase-chevron{font-size:12px;color:var(--dim);transition:transform .25s}
+.phase-chevron.open{transform:rotate(180deg)}
+.lock-overlay{
+  position:absolute;inset:0;
+  background:rgba(13,10,26,.75);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;backdrop-filter:blur(2px);z-index:10;
+  border-radius:14px;
+}
+.lock-icon{font-size:28px}
+.lock-text{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+
+/* Phase body */
+.phase-body{
+  padding:4px 12px 12px;
+  background:var(--card);
+  display:none;
+}
+.phase-body.open{display:block}
+
+/* Section sub-head */
+.sub-sec{
+  font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--faint);padding:10px 0 6px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.sub-sec-count{font-size:9px;font-weight:700;color:var(--dim)}
+
+/* Item cards */
+.item-card{
+  border-radius:12px;padding:12px;margin-bottom:8px;
+  display:flex;gap:10px;align-items:flex-start;
+  transition:all .2s;
+  border:1.5px solid transparent;
+}
+.item-card.c-app{background:rgba(0,174,199,.07);border-color:rgba(0,174,199,.2)}
+.item-card.c-pt{background:rgba(110,56,213,.1);border-color:rgba(110,56,213,.25)}
+.item-card.c-staff{background:rgba(255,117,0,.08);border-color:rgba(255,117,0,.2)}
+.item-card.c-social{background:rgba(164,42,249,.08);border-color:rgba(164,42,249,.2)}
+.item-card.c-review{background:rgba(255,215,0,.06);border-color:rgba(255,215,0,.2)}
+.item-card.c-gym{background:rgba(239,51,64,.07);border-color:rgba(239,51,64,.18)}
+.item-card.done{
+  background:rgba(0,200,81,.07)!important;
+  border-color:rgba(0,200,81,.3)!important;
+  opacity:.8;
+}
+.check-circle{
+  width:28px;height:28px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.2);
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:900;color:transparent;
+  transition:all .2s;cursor:pointer;
+}
+.item-card.done .check-circle{background:var(--green);border-color:var(--green);color:#fff}
+.item-body{flex:1;min-width:0}
+.item-title{font-size:13px;font-weight:700;line-height:1.3;margin-bottom:2px;cursor:pointer}
+.item-card.done .item-title{text-decoration:line-through;color:var(--dim)}
+.item-desc{font-size:11px;color:var(--dim);line-height:1.45}
+.item-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.chip{
+  font-size:8.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+  padding:3px 8px;border-radius:6px;
+}
+.chip-app{background:rgba(0,174,199,.18);color:var(--turquoise)}
+.chip-pt{background:rgba(110,56,213,.25);color:#b794f6}
+.chip-staff{background:rgba(255,117,0,.18);color:var(--orange)}
+.chip-social{background:rgba(164,42,249,.2);color:#d084ff}
+.chip-review{background:rgba(255,215,0,.15);color:var(--gold)}
+.chip-gym{background:rgba(239,51,64,.18);color:var(--red)}
+
+/* Expand section */
+.expand-btn{
+  font-size:10px;font-weight:800;color:var(--turquoise);margin-top:7px;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.expand-body{
+  display:none;margin-top:8px;padding:10px 12px;
+  background:rgba(0,0,0,.2);border-radius:9px;
+  font-size:10.5px;color:var(--dim);line-height:1.65;
+}
+.expand-body.open{display:block}
+.expand-body strong{color:#fff;font-weight:700}
+
+/* Staff fields */
+.staff-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.sfield{background:rgba(255,255,255,.04);border-radius:8px;padding:8px}
+.sfield-label{font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.sfield-input{
+  width:100%;background:transparent;border-bottom:1px solid var(--border);
+  color:#fff;font-size:11px;font-weight:600;padding-bottom:3px;
+}
+.sfield-input::placeholder{color:var(--faint)}
+
+/* ═══ REWARD SECTION ═══ */
+#rewardSection{
+  margin:14px 16px;
+  background:linear-gradient(160deg,var(--blurple) 0%,var(--violet) 100%);
+  border-radius:18px;padding:22px 18px 20px;text-align:center;
+  position:relative;overflow:hidden;
+}
+#rewardSection::before{
+  content:'';position:absolute;top:0;right:0;bottom:0;width:60%;
+  background:repeating-linear-gradient(115deg,transparent 0 9px,rgba(0,174,199,.08) 9px 10px);
+}
+.reward-emoji{font-size:40px;margin-bottom:8px;position:relative;z-index:2}
+.reward-title{font-weight:900;font-size:18px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:10px;position:relative;z-index:2}
+.reward-body{font-size:11.5px;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:16px;position:relative;z-index:2}
+.reward-body em{color:#fff;font-style:normal;font-weight:700}
+.reward-btn{
+  width:100%;padding:15px;border-radius:12px;
+  font-weight:900;font-size:13px;letter-spacing:.04em;text-transform:uppercase;
+  position:relative;z-index:2;transition:all .2s;
+}
+.reward-btn.locked{background:rgba(255,255,255,.1);color:rgba(255,255,255,.35)}
+.reward-btn.unlocked{
+  background:#fff;color:var(--violet);
+  box-shadow:0 4px 20px rgba(0,0,0,.3);
+}
+.reward-prog{font-size:10px;font-weight:700;color:rgba(255,255,255,.4);margin-top:10px;position:relative;z-index:2}
+
+/* ═══ COMPLETION MODAL ═══ */
+#completionModal{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,.85);
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+#completionModal.open{display:flex}
+.comp-box{
+  background:linear-gradient(160deg,var(--blurple),var(--violet));
+  border-radius:22px;padding:30px 22px;text-align:center;
+  max-width:380px;width:100%;position:relative;overflow:hidden;
+}
+.comp-box::after{
+  content:'';position:absolute;top:0;right:0;bottom:0;width:60%;
+  background:repeating-linear-gradient(115deg,transparent 0 9px,rgba(0,174,199,.1) 9px 10px);
+}
+.comp-confetti{font-size:42px;margin-bottom:10px;position:relative;z-index:2}
+.comp-title{font-weight:900;font-size:20px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:12px;position:relative;z-index:2}
+.comp-body{font-size:12px;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:18px;position:relative;z-index:2}
+.comp-body strong{color:#fff}
+.comp-code{
+  background:rgba(255,255,255,.12);border-radius:12px;padding:14px;
+  font-weight:900;font-size:24px;letter-spacing:.18em;
+  margin-bottom:16px;position:relative;z-index:2;
+  border:1.5px solid rgba(255,255,255,.2);
+}
+.comp-btn{
+  width:100%;background:#fff;color:var(--violet);
+  font-weight:900;font-size:13px;text-transform:uppercase;letter-spacing:.05em;
+  padding:14px;border-radius:12px;position:relative;z-index:2;
+}
+.comp-copyright{
+  font-size:8px;color:rgba(255,255,255,.2);margin-top:14px;
+  line-height:1.4;position:relative;z-index:2;
+}
+
+/* ═══ INSTALL MODAL ═══ */
+#installModal{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,.8);
+  display:none;align-items:flex-end;
+}
+#installModal.open{display:flex}
+.inst-sheet{
+  background:var(--card);width:100%;border-radius:20px 20px 0 0;
+  padding:20px 20px calc(env(safe-area-inset-bottom,0px)+24px);
+  max-height:80vh;overflow-y:auto;
+}
+.sheet-handle{width:36px;height:4px;background:rgba(255,255,255,.2);border-radius:2px;margin:0 auto 16px}
+.inst-title{font-weight:900;font-size:15px;text-transform:uppercase;margin-bottom:14px}
+.platform-row{display:flex;gap:6px;margin-bottom:16px}
+.plat-btn{
+  flex:1;padding:9px;border-radius:9px;
+  font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  background:rgba(255,255,255,.05);color:var(--dim);border:1px solid var(--border);
+}
+.plat-btn.active{background:var(--blurple);color:#fff;border-color:var(--blurple)}
+.steps-list{display:none;flex-direction:column;gap:10px}
+.steps-list.active{display:flex}
+.step-row{display:flex;gap:10px;align-items:flex-start}
+.step-n{
+  width:22px;height:22px;border-radius:50%;background:var(--turquoise);
+  color:#fff;font-size:11px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+}
+.step-t{font-size:12px;color:rgba(255,255,255,.8);line-height:1.5;padding-top:2px}
+.step-t strong{color:#fff}
+.inst-close{
+  margin-top:18px;width:100%;background:rgba(255,255,255,.08);
+  color:#fff;font-weight:800;font-size:11px;text-transform:uppercase;
+  letter-spacing:.05em;padding:12px;border-radius:10px;
+}
+
+/* Footer copyright */
+.app-footer{
+  text-align:center;padding:10px 20px 20px;
+  font-size:8.5px;color:var(--faint);line-height:1.6;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ SETUP SCREEN ═══ -->
+<div id="setupScreen">
+  <div class="setup-logo">Anytime Fitness</div>
+  <div class="setup-m30">MOMENTUM<span>30</span></div>
+  <div class="setup-tagline">Small actions. Big results.</div>
+
+  <div class="setup-label">Your name</div>
+  <input type="text" class="setup-input" id="setupName" placeholder="First name" autocomplete="given-name">
+
+  <div class="setup-label">Your club</div>
+  <select class="setup-select" id="setupClub">
+    <option value="" disabled selected>Select your club</option>
+    <option value="Newcastle">Anytime Fitness Newcastle</option>
+    <option value="Kotara">Anytime Fitness Kotara</option>
+    <option value="Edgeworth">Anytime Fitness Edgeworth</option>
+    <option value="Thornton">Anytime Fitness Thornton</option>
+    <option value="Greenhills">Anytime Fitness Greenhills</option>
+    <option value="Lake Haven">Anytime Fitness Lake Haven</option>
+  </select>
+
+  <button class="setup-btn" onclick="startJourney()">Start My Journey →</button>
+  <div class="setup-copy">© 2025 Anytime Fitness Newcastle Region · Fitness Group Holdings<br>Proprietary and confidential. All rights reserved.</div>
+</div>
+
+<!-- ═══ MAIN APP ═══ -->
+<div id="mainApp" style="display:none">
+
+  <!-- Top header -->
+  <div id="topBar">
+    <div class="bar-logo">
+      <div>
+        <svg width="26" height="26" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="31" cy="7" r="5" fill="#fff"/>
+          <path d="M28 13l-6 7-7 3 1.5 3 7-2 4-4 3 6-5 7 2.5 1.5 6-8-3-7 4 3 3-3-7-5z" fill="#fff"/>
+        </svg>
+      </div>
+      <div class="bar-brand">ANYTIME FITNESS<small>Member Journey</small></div>
+      <div class="bar-member"><span class="dot"></span><span id="memberName">—</span></div>
+    </div>
+    <div class="bar-title">MOMENTUM<span class="accent"> 30</span></div>
+    <div class="bar-sub">Small actions · Big results</div>
+    <div class="bar-club" id="barClub">Your Club</div>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <div class="prog-pct" id="progPct">0%</div>
+      <div>
+        <div class="prog-label" id="progEmoji">🌱 Getting Started</div>
+        <div class="prog-sub" id="progSub">Keep going — you've got this!</div>
+      </div>
+    </div>
+    <div class="prog-track">
+      <div class="prog-fill" id="progFill" style="width:0%"></div>
+    </div>
+    <div class="prog-milestones">
+      <div class="prog-mile" id="mile0">🌱<br>Start</div>
+      <div class="prog-mile" id="mile25">💪<br>25%</div>
+      <div class="prog-mile" id="mile50">🔥<br>50%</div>
+      <div class="prog-mile" id="mile75">🚀<br>75%</div>
+      <div class="prog-mile" id="mile100">🏆<br>Done!</div>
+    </div>
+  </div>
+
+  <!-- Install banner -->
+  <div id="installWrap">
+    <div style="font-size:20px">📲</div>
+    <div class="ib-text">
+      <div class="ib-head">Save to your home screen</div>
+      <div class="ib-sub">Get one-tap access — works like an app</div>
+    </div>
+    <button class="ib-btn" onclick="openInstall()">How?</button>
+  </div>
+
+  <!-- Visits tracker -->
+  <div class="visits-block">
+    <div class="visits-head">
+      <div>
+        <div class="visits-title">🏃 Visit Tracker</div>
+        <div class="visits-goal">Target: 8 visits in 30 days · builds your habit for life</div>
+      </div>
+      <div class="visits-count"><span id="visitsDone">0</span><span> / 8</span></div>
+    </div>
+    <div class="visit-dots" id="visitDots"></div>
+    <div class="visits-note">Missed a visit this week? No problem — make it up the following week. Every visit counts.</div>
+  </div>
+
+  <!-- Phases -->
+  <div class="phases-wrap" id="phasesWrap"></div>
+
+  <!-- Reward -->
+  <div id="rewardSection">
+    <div class="reward-emoji">👕</div>
+    <div class="reward-title">🏆 Earn Your Exclusive Club Tee</div>
+    <div class="reward-body">
+      Complete every mission in Momentum 30 to earn your exclusive Anytime Fitness Club Tee.<br><br>
+      <em>The Tee isn't the reward. It's a symbol of your commitment to yourself.</em><br><br>
+      A reminder that you showed up, kept going and proved to yourself that you can do hard things.
+    </div>
+    <button class="reward-btn locked" id="rewardBtn" onclick="openCompletion()">Complete all missions to unlock</button>
+    <div class="reward-prog" id="rewardProg">0 of 0 missions completed</div>
+  </div>
+
+  <div class="app-footer">
+    © 2025 Anytime Fitness Newcastle Region · Fitness Group Holdings<br>
+    Proprietary &amp; confidential. Unauthorised use, reproduction or distribution is prohibited.
+  </div>
+
+</div><!-- /mainApp -->
+
+<!-- ═══ COMPLETION MODAL ═══ -->
+<div id="completionModal">
+  <div class="comp-box">
+    <div class="comp-confetti">🎉</div>
+    <div class="comp-title">Congratulations!</div>
+    <div class="comp-body">
+      You didn't just complete Momentum 30.<br><br>
+      <strong>You proved to yourself that you can show up, stay committed and do hard things.</strong><br><br>
+      Your exclusive Club Tee is our way of recognising everything you've achieved.
+      Show this screen to a team member to collect it.
+    </div>
+    <div class="comp-code" id="compCode">AF-0000</div>
+    <button class="comp-btn" onclick="closeCompletion()">Claim My Club Tee 👕</button>
+    <div class="comp-copyright">© 2025 Anytime Fitness Newcastle Region · Fitness Group Holdings. Proprietary &amp; confidential.</div>
+  </div>
+</div>
+
+<!-- ═══ INSTALL MODAL ═══ -->
+<div id="installModal">
+  <div class="inst-sheet">
+    <div class="sheet-handle"></div>
+    <div class="inst-title">📲 Save to home screen</div>
+    <div class="platform-row">
+      <button class="plat-btn active" id="btnIOS" onclick="showPlat('ios')">iPhone</button>
+      <button class="plat-btn" id="btnAnd" onclick="showPlat('android')">Android</button>
+    </div>
+    <div class="steps-list active" id="stepsIOS">
+      <div class="step-row"><div class="step-n">1</div><div class="step-t">Open this page in <strong>Safari</strong> on your iPhone (not Chrome).</div></div>
+      <div class="step-row"><div class="step-n">2</div><div class="step-t">Tap the <strong>Share icon</strong> (square with arrow up) at the bottom of Safari.</div></div>
+      <div class="step-row"><div class="step-n">3</div><div class="step-t">Scroll and tap <strong>"Add to Home Screen."</strong></div></div>
+      <div class="step-row"><div class="step-n">4</div><div class="step-t">Tap <strong>"Add"</strong> in the top right. Done — find it on your home screen!</div></div>
+    </div>
+    <div class="steps-list" id="stepsAnd">
+      <div class="step-row"><div class="step-n">1</div><div class="step-t">Open this page in <strong>Chrome</strong> on your Android phone.</div></div>
+      <div class="step-row"><div class="step-n">2</div><div class="step-t">Tap the <strong>three dots ⋮</strong> in the top right corner.</div></div>
+      <div class="step-row"><div class="step-n">3</div><div class="step-t">Tap <strong>"Add to Home screen"</strong> or <strong>"Install app."</strong></div></div>
+      <div class="step-row"><div class="step-n">4</div><div class="step-t">Tap <strong>Add</strong> or <strong>Install</strong> to confirm.</div></div>
+    </div>
+    <button class="inst-close" onclick="closeInstall()">Got it ✓</button>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════
+// CHECKLIST DATA
+// ════════════════════════════════════════
+const PHASES = [
+  {
+    id:'p1', num:1, name:'Get Moving', days:'Days 1–10',
+    color:'turquoise', requiredFor:'p2',
+    sections:[
+      {
+        title:'Your App — 6Strong',
+        items:[
+          {id:'sixstrong', title:'Download, connect & set up 6Strong', color:'c-app',
+           chips:['chip-app'],chipLabels:['App Setup'],
+           desc:'Three steps in one — download the app, connect to your club, and fill in your profile and goal.',
+           expand:`<strong>Step 1 — Download:</strong> iPhone → App Store, search "6Strong" → Get. Android → Google Play, search "6Strong" → Install.<br><br>
+                   <strong>Step 2 — Connect your club:</strong> Open 6Strong → Settings → Connect Club → search for your Anytime Fitness club → tap Connect.<br><br>
+                   <strong>Step 3 — Set up your profile:</strong> Add your training goal, experience level and how often you want to train. Your trainer can now see your progress directly in the app.`},
+        ]
+      },
+      {
+        title:'Your Goal Setting Session',
+        items:[
+          {id:'bookpt', title:'Book your free goal setting session', color:'c-pt',
+           chips:['chip-pt'],chipLabels:['Free Session'],
+           desc:'Speak to a team member at the desk or your PT to lock in your session. No pressure — this is about setting you up for success, not selling you anything.',
+           expand:`Tell the team member at the front desk you'd like to book your <strong>free goal setting session</strong>. You get <strong>2 free sessions</strong> as a new member. Book the first one within your first 7 days.`},
+          {id:'evolt', title:'Complete your Evolt 360 body scan', color:'c-pt',
+           chips:['chip-pt'],chipLabels:['Goal Aligned'],
+           desc:'A full body composition scan — sets your real baseline so your goals are built on data, not guesswork.',
+           expand:`Ask any team member to book you in for an Evolt scan. It takes under 5 minutes. Bring your results to your goal setting session so your program is personalised to the actual numbers.`},
+        ]
+      },
+      {
+        title:'Get Familiar',
+        items:[
+          {id:'equipnew', title:'Try a piece of equipment you\'ve never used before', color:'c-gym',
+           chips:['chip-gym'],chipLabels:['Gym Floor'],
+           desc:'Step outside your comfort zone — ask a team member to show you something new on the floor.'},
+          {id:'meetcm', title:'Met your Club Manager', color:'c-staff',
+           chips:['chip-staff'],chipLabels:['Staff'],
+           desc:'Introduce yourself and find out one funny thing about them.',
+           staffFields:[{key:'cm_name',label:'Club Manager name'},{key:'cm_fact',label:'Funny fact'}]},
+          {id:'meetsm', title:'Met your Sales Manager', color:'c-staff',
+           chips:['chip-staff'],chipLabels:['Staff'],
+           desc:'Say hello and find out one funny thing about them too.',
+           staffFields:[{key:'sm_name',label:'Sales Manager name'},{key:'sm_fact',label:'Funny fact'}]},
+        ]
+      },
+      {
+        title:'Connect Online',
+        items:[
+          {id:'insta', title:'Follow us on Instagram', color:'c-social',
+           chips:['chip-social'],chipLabels:['Social'],
+           desc:'Stay across challenges, community wins and club news.',
+           expand:`Search for your club's Instagram handle and hit Follow. Ask a team member if you're not sure of the exact handle.`},
+        ]
+      }
+    ]
+  },
+  {
+    id:'p2', num:2, name:'Build Momentum', days:'Days 11–20',
+    color:'orange', requiredFor:'p3',
+    sections:[
+      {
+        title:'Your Goal Setting Session',
+        items:[
+          {id:'completept', title:'Complete your goal setting session', color:'c-pt',
+           chips:['chip-pt'],chipLabels:['Free Session'],
+           desc:'Your first of 2 free sessions — show up and let your PT build your program around your Evolt scan results and your goal.'},
+        ]
+      },
+      {
+        title:'Show Up & Share',
+        items:[
+          {id:'selfie', title:'Take a gym selfie + tag us on your story', color:'c-social',
+           chips:['chip-social'],chipLabels:['Social'],
+           desc:'Snap a gym selfie and share it to your Instagram or Facebook story — tag your club.',
+           expand:`Tag <strong>@anytimefitness</strong> (your local club handle) in your story. Team members check stories regularly to mark this off for you.`},
+          {id:'refer', title:'Refer a friend', color:'c-social',
+           chips:['chip-social'],chipLabels:['Social'],
+           desc:'Know someone who should be here? Bring them in for a free visit — you both win.',
+           expand:`Ask at the front desk for a referral pass to give to a friend. Or, if your 6Strong app has a referral option, you can send it directly from there.`},
+        ]
+      }
+    ]
+  },
+  {
+    id:'p3', num:3, name:'Finish Strong', days:'Days 21–30',
+    color:'red', requiredFor:null,
+    sections:[
+      {
+        title:'Bring Your People',
+        items:[
+          {id:'wingman', title:'Bring a friend for Wingman Wednesday', color:'c-social',
+           chips:['chip-social'],chipLabels:['Social'],
+           desc:'Every Wednesday, your training partner trains with you for free. Just show up together and let front desk know.',
+           expand:`No booking needed — just arrive on a Wednesday with your friend. Let the front desk team know it's a Wingman Wednesday visit.`},
+          {id:'pt2', title:'Complete your second goal setting session', color:'c-pt',
+           chips:['chip-pt'],chipLabels:['Free Session'],
+           desc:'Your second free session — review your progress, adjust your program, and set your phase 2 goals.'},
+        ]
+      },
+      {
+        title:'Leave Your Mark',
+        items:[
+          {id:'google', title:'Leave us a Google review', color:'c-review',
+           chips:['chip-review'],chipLabels:['Review'],
+           desc:'Tell other people in Newcastle what your experience has been like.',
+           expand:`Search for your Anytime Fitness club on Google Maps → tap "Write a review" → share your honest experience. Takes 2 minutes and makes a huge difference to the club team.`},
+          {id:'medallia', title:'Reply to your Medallia survey (if received)', color:'c-review',
+           chips:['chip-review'],chipLabels:['Optional'],
+           desc:'If you\'ve received a survey by SMS or email from Anytime Fitness, give us your honest feedback. If you haven\'t received one, tick this off anyway.',
+           expand:`Check your SMS and email for a survey from Anytime Fitness. Complete it — it goes straight to your club team and helps them improve. <strong>Haven't received one?</strong> No worries — tick this off and move on.`},
+        ]
+      }
+    ]
+  }
+];
+
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+const SK = 'af_m30_v3';
+let S = JSON.parse(localStorage.getItem(SK)||'{"name":"","club":"","done":{},"visits":0,"staff":{},"code":"","setup":false}');
+function save(){ localStorage.setItem(SK, JSON.stringify(S)) }
+
+// ════════════════════════════════════════
+// SETUP
+// ════════════════════════════════════════
+function startJourney(){
+  const name = document.getElementById('setupName').value.trim();
+  const club = document.getElementById('setupClub').value;
+  if(!name || !club){ alert('Please enter your name and select your club to get started.'); return; }
+  S.name = name; S.club = club; S.setup = true;
+  save(); showApp();
+}
+
+function showApp(){
+  document.getElementById('setupScreen').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
+  document.getElementById('memberName').textContent = S.name;
+  document.getElementById('barClub').textContent = 'Anytime Fitness ' + S.club;
+  renderVisits(); renderPhases(); updateProgress();
+  autoDetectPlatform();
+}
+
+// ════════════════════════════════════════
+// VISITS
+// ════════════════════════════════════════
+function renderVisits(){
+  const wrap = document.getElementById('visitDots');
+  let h = '';
+  for(let i=1;i<=8;i++){
+    const done = S.visits >= i;
+    const isNext = S.visits === i-1;
+    h += `<div class="vdot ${done?'done':isNext?'next':''}" onclick="logVisit(${i})">
+      ${done ? '✓' : i}
+    </div>`;
+  }
+  wrap.innerHTML = h;
+  document.getElementById('visitsDone').textContent = S.visits;
+}
+
+function logVisit(n){
+  if(n === S.visits + 1){ S.visits = n; save(); renderVisits(); updateProgress(); }
+  else if(n <= S.visits){ if(confirm('Un-log visit '+n+'?')){ S.visits = n-1; save(); renderVisits(); updateProgress(); } }
+}
+
+// ════════════════════════════════════════
+// PHASES
+// ════════════════════════════════════════
+function isPhaseComplete(pid){
+  const phase = PHASES.find(p=>p.id===pid);
+  if(!phase) return false;
+  return phase.sections.every(sec => sec.items.every(it => S.done[it.id]));
+}
+
+function isPhaseUnlocked(pid, idx){
+  if(idx === 0) return true;
+  return isPhaseComplete(PHASES[idx-1].id);
+}
+
+function renderPhases(){
+  const wrap = document.getElementById('phasesWrap');
+  let h = '';
+  PHASES.forEach((ph, idx) => {
+    const unlocked = isPhaseUnlocked(ph.id, idx);
+    const complete = isPhaseComplete(ph.id);
+    const totalItems = ph.sections.flatMap(s=>s.items).length;
+    const doneItems = ph.sections.flatMap(s=>s.items).filter(it=>S.done[it.id]).length;
+    const open = S['open_'+ph.id];
+
+    h += `<div class="phase-block ph-${ph.num} ${!unlocked?'locked':''}" id="phblock_${ph.id}">
+      <div class="phase-header" onclick="togglePhase('${ph.id}')">
+        <div class="ph-left">
+          <div class="phase-num">${complete?'✓':ph.num}</div>
+          <div class="phase-meta">
+            <div class="phase-name">${ph.name}</div>
+            <div class="phase-days">${ph.days} · ${doneItems}/${totalItems} done</div>
+          </div>
+        </div>
+        <div class="ph-right">
+          <div class="phase-badge">${complete?'✅ Complete':doneItems+'/'+totalItems}</div>
+          <div class="phase-chevron ${open?'open':''}">▾</div>
+        </div>
+      </div>
+      <div class="phase-body ${open?'open':''}" id="pbody_${ph.id}">
+        ${renderSections(ph)}
+      </div>
+      ${!unlocked ? `<div class="lock-overlay"><div class="lock-icon">🔒</div><div class="lock-text">Complete Phase ${idx} to unlock</div></div>` : ''}
+    </div>`;
+  });
+  wrap.innerHTML = h;
+}
+
+function renderSections(ph){
+  let h = '';
+  ph.sections.forEach(sec => {
+    const doneC = sec.items.filter(it=>S.done[it.id]).length;
+    h += `<div class="sub-sec"><span>${sec.title}</span><span class="sub-sec-count">${doneC}/${sec.items.length}</span></div>`;
+    sec.items.forEach(it => {
+      const done = !!S.done[it.id];
+      h += `<div class="item-card ${it.color} ${done?'done':''}" id="ic_${it.id}">
+        <div class="check-circle" onclick="toggle('${it.id}')">${done?'✓':''}</div>
+        <div class="item-body">
+          <div class="item-title" onclick="toggle('${it.id}')">${it.title}</div>
+          <div class="item-desc">${it.desc}</div>
+          <div class="item-chips">
+            ${(it.chips||[]).map((c,i)=>`<span class="chip ${c}">${it.chipLabels[i]}</span>`).join('')}
+          </div>
+          ${it.expand ? `<div class="expand-btn" onclick="expandToggle('${it.id}')">More info ▾</div>
+          <div class="expand-body" id="ex_${it.id}">${it.expand}</div>` : ''}
+          ${it.staffFields ? `<div class="staff-fields">
+            ${it.staffFields.map(f=>`<div class="sfield">
+              <div class="sfield-label">${f.label}</div>
+              <input class="sfield-input" placeholder="Type here" value="${S.staff[f.key]||''}" oninput="saveStaff('${f.key}',this.value)">
+            </div>`).join('')}
+          </div>` : ''}
+        </div>
+      </div>`;
+    });
+  });
+  return h;
+}
+
+function togglePhase(pid){
+  S['open_'+pid] = !S['open_'+pid];
+  save(); renderPhases();
+}
+
+function toggle(id){
+  S.done[id] = !S.done[id];
+  save(); renderPhases(); updateProgress();
+}
+
+function expandToggle(id){
+  const el = document.getElementById('ex_'+id);
+  if(el) el.classList.toggle('open');
+}
+
+function saveStaff(key, val){ S.staff[key]=val; save(); }
+
+// ════════════════════════════════════════
+// PROGRESS
+// ════════════════════════════════════════
+function updateProgress(){
+  const allItems = PHASES.flatMap(p=>p.sections.flatMap(s=>s.items));
+  const total = allItems.length + 8; // items + 8 visits
+  const done = allItems.filter(it=>S.done[it.id]).length + S.visits;
+  const pct = total ? Math.round((done/total)*100) : 0;
+
+  document.getElementById('progPct').textContent = pct+'%';
+  document.getElementById('progFill').style.width = pct+'%';
+
+  const stages = [
+    {min:0,  max:24,  emoji:'🌱 Getting Started',    sub:'Every journey starts with one step. Let\'s go!'},
+    {min:25, max:49,  emoji:'💪 Building Momentum',   sub:'You\'re showing up. Keep the streak alive!'},
+    {min:50, max:74,  emoji:'🔥 Creating Habits',     sub:'Halfway there — this is where it gets real.'},
+    {min:75, max:99,  emoji:'🚀 Finishing Strong',     sub:'Almost there. Don\'t stop now — you\'ve got this!'},
+    {min:100,max:100, emoji:'🏆 Challenge Complete',   sub:'You did it. That\'s Real AF. 🎉'},
+  ];
+  const stage = stages.find(s=>pct>=s.min && pct<=s.max) || stages[0];
+  document.getElementById('progEmoji').textContent = stage.emoji;
+  document.getElementById('progSub').textContent = stage.sub;
+
+  [0,25,50,75,100].forEach((m,i)=>{
+    const el = document.getElementById('mile'+m);
+    if(el) el.classList.toggle('reached', pct>=m);
+  });
+
+  // Reward button
+  const btn = document.getElementById('rewardBtn');
+  const prog = document.getElementById('rewardProg');
+  const allDone = allItems.every(it=>S.done[it.id]) && S.visits >= 8;
+  btn.className = 'reward-btn ' + (allDone?'unlocked':'locked');
+  btn.disabled = !allDone;
+  btn.textContent = allDone ? '🎉 Show Staff & Claim Your Tee' : `Complete all missions to unlock (${total-done} left)`;
+  prog.textContent = `${done} of ${total} missions completed`;
+}
+
+// ════════════════════════════════════════
+// COMPLETION
+// ════════════════════════════════════════
+function openCompletion(){
+  if(!S.code){
+    const n = S.name ? S.name.substring(0,2).toUpperCase() : 'AF';
+    S.code = 'AF-'+n+(1000+Math.floor(Math.random()*8999));
+    save();
+  }
+  document.getElementById('compCode').textContent = S.code;
+  document.getElementById('completionModal').classList.add('open');
+}
+function closeCompletion(){ document.getElementById('completionModal').classList.remove('open'); }
+
+// ════════════════════════════════════════
+// INSTALL
+// ════════════════════════════════════════
+function openInstall(){ document.getElementById('installModal').classList.add('open'); }
+function closeInstall(){ document.getElementById('installModal').classList.remove('open'); }
+function showPlat(p){
+  document.getElementById('btnIOS').classList.toggle('active',p==='ios');
+  document.getElementById('btnAnd').classList.toggle('active',p==='android');
+  document.getElementById('stepsIOS').classList.toggle('active',p==='ios');
+  document.getElementById('stepsAnd').classList.toggle('active',p==='android');
+}
+function autoDetectPlatform(){
+  showPlat(/Android/i.test(navigator.userAgent)?'android':'ios');
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+if(S.setup && S.name && S.club){ showApp(); }
+</script>
+</body>
+</html>
